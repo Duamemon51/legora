@@ -1,0 +1,249 @@
+/* ============================================================
+   Webbutveckling.css
+   Styles for the Webbutveckling page and all its sections
+   ============================================================ */
+
+/* ---------- Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;450&display=swap');
+
+/* Aktiv Grotesk VF — loaded via Framer / project font pipeline */
+
+/* ---------- Base / Page wrapper ---------- */
+.webbutveckling-wrapper {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+  min-height: 55vh;
+  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.hero__title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 400;
+  color: #111;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+  font-family: 'Georgia', serif;
+  line-height: 1.1;
+}
+
+.hero__cta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero__subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.hero__demo-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #111;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #ecece6;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  transition: background 0.15s;
+}
+
+.hero__demo-btn:hover {
+  background: #dcdcd4;
+}
+
+/* ============================================================
+   SINGLE SYSTEM SECTION
+   ============================================================ */
+.single-system {
+  min-height: 60vh;
+  background: #fafaf9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 24px;
+}
+
+.single-system__inner {
+  max-width: 560px;
+}
+
+.single-system__title {
+  font-size: clamp(38px, 5vw, 58px);
+  font-weight: 400;
+  color: #111;
+  letter-spacing: -0.04em;
+  margin: 0 0 24px;
+  font-family: 'Georgia', serif;
+  line-height: 1.1;
+}
+
+.single-system__body {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ============================================================
+   SHARED SPLIT-SECTION BASE
+   (SecuritySection, ProductsSection, LegalCapabilities,
+    ContextSection, DataIntegration, AgenticHarness)
+   ============================================================ */
+.split-section {
+  display: flex;
+  min-height: 720px;
+  font-family: 'DM Sans', sans-serif;
+  background: #fafaf9;
+  overflow: hidden;
+}
+
+/* Image / video panel — used on the wider (54%) side */
+.split-section__media {
+  flex: 0 0 54%;
+  position: relative;
+  overflow: hidden;
+}
+
+.split-section__media img,
+.split-section__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Text panel */
+.split-section__content {
+  flex: 1;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: #fafaf9;
+}
+
+/* Products section has slightly more left padding */
+.split-section__content--products {
+  padding: 20px 60px;
+}
+
+/* ── Heading h4 — Aktiv Grotesk VF (Framer variables) ── */
+.text-wrapper h4,
+.split-section__title {
+  /* Framer font tokens */
+  --framer-font-family: "Aktiv Grotesk VF Variable Regular",
+    "Aktiv Grotesk VF Variable Regular Placeholder", sans-serif;
+  --framer-font-family-bold: "Aktiv Grotesk VF Variable Regular",
+    "Aktiv Grotesk VF Variable Regular Placeholder", sans-serif;
+  --framer-font-family-bold-italic: "Aktiv Grotesk VF Variable Regular",
+    "Aktiv Grotesk VF Variable Regular Placeholder", sans-serif;
+  --framer-font-family-italic: "Aktiv Grotesk VF Variable Regular",
+    "Aktiv Grotesk VF Variable Regular Placeholder", sans-serif;
+
+  --framer-font-open-type-features: "blwf" on, "cv03" on, "cv04" on,
+    "cv09" on, "cv11" on;
+
+  --framer-font-size: calc(var(--framer-root-font-size, 1rem) * 2.25);
+
+  --framer-font-style: normal;
+  --framer-font-style-bold: normal;
+  --framer-font-style-bold-italic: normal;
+  --framer-font-style-italic: normal;
+
+  --framer-font-variation-axes: "wght" 450;
+  --framer-font-variation-axes-bold: "wght" 450;
+  --framer-font-variation-axes-bold-italic: "wght" 450;
+  --framer-font-variation-axes-italic: "wght" 450;
+
+  --framer-font-weight: 400;
+  --framer-font-weight-bold: 400;
+  --framer-font-weight-bold-italic: 400;
+  --framer-font-weight-italic: 400;
+
+  --framer-letter-spacing: -0.02em;
+  --framer-line-height: 120%;
+  --framer-paragraph-spacing: 40px;
+  --framer-text-alignment: left;
+  --framer-text-color: var(--token-c17340f0-af98-4bd9-9b44-9e89d443efbf, #0d1016);
+  --framer-text-decoration: none;
+  --framer-text-stroke-color: initial;
+  --framer-text-stroke-width: initial;
+  --framer-text-transform: none;
+
+  /* Applied properties */
+  font-family: var(--framer-font-family);
+  font-size: var(--framer-font-size);
+  font-style: var(--framer-font-style);
+  font-weight: var(--framer-font-weight);
+  font-variation-settings: var(--framer-font-variation-axes);
+  font-feature-settings: var(--framer-font-open-type-features);
+  letter-spacing: var(--framer-letter-spacing);
+  line-height: var(--framer-line-height);
+  color: var(--framer-text-color);
+  text-align: var(--framer-text-alignment);
+  text-decoration: var(--framer-text-decoration);
+  text-transform: var(--framer-text-transform);
+  -webkit-text-stroke-color: var(--framer-text-stroke-color);
+  -webkit-text-stroke-width: var(--framer-text-stroke-width);
+
+  margin: 0 0 18px;
+  white-space: nowrap;
+}
+
+.split-section__lead {
+  font-size: 15px;
+  color: #555048;
+  margin: 0 0 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+.split-section__body {
+  font-size: 13.5px;
+  color: #7a7268;
+  margin: 0 0 32px;
+  line-height: 1.75;
+  letter-spacing: -0.005em;
+  max-width: 340px;
+}
+
+.split-section__link {
+  font-size: 13px;
+  color: #4a4540;
+  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  align-self: flex-start;
+}
+
+.split-section__link:hover {
+  color: #111;
+}

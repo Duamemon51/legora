@@ -1,0 +1,50 @@
+.logo-strip {
+  padding: 0px 10px;
+  padding-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.logo-strip-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.logo-strip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.logo-item {
+  width: 40px;
+  height: 18px;
+  color: #111111;
+  opacity: 0.45;
+  flex-shrink: 0;
+}
+
+.logo-item:hover {
+  opacity: 0.75;
+}
+
+@media (max-width: 640px) {
+  .logo-strip {
+    padding: 28px 20px;
+  }
+
+  .logo-strip-row {
+    gap: 24px;
+  }
+
+  .logo-name {
+    font-size: 13px;
+  }
+}

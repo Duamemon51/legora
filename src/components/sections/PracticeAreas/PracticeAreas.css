@@ -1,0 +1,107 @@
+.practice-section {
+  padding: 100px 0 0;
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.practice-heading {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 60px;
+  padding: 0 20px;
+}
+
+.practice-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+  color: var(--text-heading);
+  margin-bottom: 20px;
+}
+
+.practice-sub {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.practice-gallery {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.practice-card {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  height: 320px;
+  transition: height 0.4s ease;
+}
+
+.practice-card:hover img {
+  opacity: 0.88;
+}
+
+.practice-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s;
+}
+
+.practice-card--active {
+  height: 500px;
+}
+
+.practice-label {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+
+.practice-card-desc {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 100%);
+  padding: 40px 16px 18px;
+}
+
+.practice-card-desc-text {
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+@media (max-width: 768px) {
+  .practice-gallery {
+    flex-wrap: wrap;
+    padding: 0 20px;
+    gap: 12px;
+  }
+
+  .practice-card {
+    flex: 1 1 calc(50% - 6px);
+    border-radius: 8px;
+    height: 200px;
+  }
+
+  .practice-card--active {
+    height: 300px;
+  }
+}
