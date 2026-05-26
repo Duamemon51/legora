@@ -5,43 +5,163 @@ import Footer from "../components/Footer";
 export default function OmOss() {
   return (
     <>
+      <style>{`
+        .om-stats-grid {
+          display: flex;
+          justify-content: center;
+          gap: 80px;
+          flex-wrap: wrap;
+          margin-bottom: 80px;
+        }
+        .om-mission-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 80px;
+          align-items: start;
+        }
+        .om-legora-way-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 80px;
+          align-items: start;
+        }
+        .om-quote-inner {
+          display: flex;
+          align-items: center;
+          gap: 64px;
+        }
+        .om-quote-image {
+          flex: 0 0 260px;
+          border-radius: 8px;
+          overflow: hidden;
+          aspect-ratio: 3/4;
+        }
+        .om-investors-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 24px;
+        }
+        .om-section-pad {
+          padding: 80px 48px 0;
+        }
+        .om-mission-section {
+          padding: 100px 48px;
+        }
+        .om-way-section {
+          padding: 0 48px 100px;
+        }
+        .om-quote-section {
+          padding: 80px 48px;
+        }
+
+        @media (max-width: 900px) {
+          .om-mission-grid,
+          .om-legora-way-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+          .om-quote-inner {
+            flex-direction: column;
+            gap: 36px;
+          }
+          .om-quote-image {
+            flex: none;
+            width: 100%;
+            max-width: 320px;
+            align-self: center;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .om-section-pad {
+            padding: 48px 20px 0;
+          }
+          .om-mission-section {
+            padding: 56px 20px;
+          }
+          .om-way-section {
+            padding: 0 20px 64px;
+          }
+          .om-quote-section {
+            padding: 56px 20px;
+          }
+          .om-stats-grid {
+            gap: 40px;
+            margin-bottom: 56px;
+          }
+          .om-investors-row {
+            gap: 20px;
+            justify-content: center;
+          }
+          .om-legora-way-grid {
+            grid-template-columns: 1fr;
+            gap: 28px;
+          }
+          .om-mission-grid {
+            grid-template-columns: 1fr;
+            gap: 28px;
+          }
+        }
+      `}</style>
+
       <Navbar />
 
-    
-
       {/* About stats section */}
-      <section style={{ background: "#ffffff", padding: "80px 48px 0", fontFamily: "'DM Sans', sans-serif" }}>
+      <section className="om-section-pad" style={{ background: "#ffffff", fontFamily: "'DM Sans', sans-serif" }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <p style={{ fontSize: 11, color: "#aaa", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", margin: "0 0 16px" }}>
             Om Oss / Shaping the future of legal work
           </p>
-          <p style={{ fontSize: "clamp(20px, 2.8vw, 32px)", fontWeight: 400, color: "#111", letterSpacing: "-0.03em", lineHeight: 1.4, margin: "0 0 48px", fontFamily: "'DM Serif Display', Georgia, serif", maxWidth: 600 }}>
+          <p style={{ fontSize: "clamp(18px, 2.8vw, 32px)", fontWeight: 400, color: "#111", letterSpacing: "-0.03em", lineHeight: 1.4, margin: "0 0 48px", fontFamily: "'DM Serif Display', Georgia, serif", maxWidth: 600 }}>
             Legora helps the world's best lawyers move faster, think sharper, and focus on what matters. By reducing friction and automating repetition, we free up time for the highest-impact legal work.
           </p>
         </div>
-        <div style={{ maxWidth: 860, margin: "0 auto 64px" }}>
+
+        <div style={{ maxWidth: 860, margin: "0 auto 48px" }}>
           <div style={{ borderRadius: 12, overflow: "hidden", width: "100%", aspectRatio: "16/9", background: "#1a1a18" }}>
-            <img src="/team.jpg" alt="Team" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onError={(e) => { e.currentTarget.style.display = "none"; }} />
+            <img
+              src="/team.jpg"
+              alt="Team"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              onError={(e) => { e.currentTarget.style.display = "none"; }}
+            />
           </div>
         </div>
-        <div style={{ maxWidth: 860, margin: "0 auto 80px", display: "flex", justifyContent: "center", gap: 80, flexWrap: "wrap" }}>
+
+        <div className="om-stats-grid" style={{ maxWidth: 860, margin: "0 auto" }}>
           {[{ value: "400+", label: "coworkers" }, { value: "1000+", label: "customers" }, { value: "50+", label: "markets" }].map((stat) => (
             <div key={stat.value} style={{ textAlign: "center" }}>
-              <div style={{ fontFamily: "'DM Serif Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 52px)", fontWeight: 400, color: "#111", letterSpacing: "-0.03em", lineHeight: 1, marginBottom: 8 }}>{stat.value}</div>
+              <div style={{ fontFamily: "'DM Serif Display', Georgia, serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 400, color: "#111", letterSpacing: "-0.03em", lineHeight: 1, marginBottom: 8 }}>
+                {stat.value}
+              </div>
               <div style={{ fontSize: 12, color: "#aaa", letterSpacing: "0.02em" }}>{stat.label}</div>
             </div>
           ))}
         </div>
-        <div style={{ maxWidth: 860, margin: "0 auto", borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 40, paddingBottom: 80, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
-          {[{ name: "Bessemer Venture Partners", style: { fontSize: 12, fontWeight: 600 } }, { name: "ICONIQ", style: { fontSize: 16, fontWeight: 600, letterSpacing: "0.04em" } }, { name: "G CAPITAL", style: { fontSize: 13, fontWeight: 600, letterSpacing: "0.06em" } }, { name: "Redpoint.", style: { fontSize: 14, fontWeight: 500 } }, { name: "BENCHMARK", style: { fontSize: 13, fontWeight: 700, letterSpacing: "0.08em" } }, { name: "Y Combinator", style: { fontSize: 13, fontWeight: 500 } }].map((inv) => (
-            <div key={inv.name} style={{ color: "#555", fontFamily: "'DM Sans', sans-serif", ...inv.style }}>{inv.name}</div>
-          ))}
+
+        <div style={{ maxWidth: 860, margin: "0 auto", borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 40, paddingBottom: 80 }}>
+          <div className="om-investors-row">
+            {[
+              { name: "Bessemer Venture Partners", style: { fontSize: 12, fontWeight: 600 } },
+              { name: "ICONIQ", style: { fontSize: 16, fontWeight: 600, letterSpacing: "0.04em" } },
+              { name: "G CAPITAL", style: { fontSize: 13, fontWeight: 600, letterSpacing: "0.06em" } },
+              { name: "Redpoint.", style: { fontSize: 14, fontWeight: 500 } },
+              { name: "BENCHMARK", style: { fontSize: 13, fontWeight: 700, letterSpacing: "0.08em" } },
+              { name: "Y Combinator", style: { fontSize: 13, fontWeight: 500 } },
+            ].map((inv) => (
+              <div key={inv.name} style={{ color: "#555", fontFamily: "'DM Sans', sans-serif", ...inv.style }}>
+                {inv.name}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Mission section */}
-      <section style={{ background: "white", padding: "100px 48px", fontFamily: "'DM Sans', sans-serif" }}>
-        <div style={{ maxWidth: 860, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+      <section className="om-mission-section" style={{ background: "white", fontFamily: "'DM Sans', sans-serif" }}>
+        <div className="om-mission-grid" style={{ maxWidth: 860, margin: "0 auto" }}>
           <div>
             <p style={{ fontSize: 13.5, color: "#555", lineHeight: 1.75, margin: "0 0 28px", letterSpacing: "-0.01em" }}>
               We are building Legora to unlock unparalleled collaboration between lawyers and clients, enabling them to review, draft, and deliver projects, together. It's a product for boundless collaboration between lawyer ingenuity and machine intelligence.
@@ -61,10 +181,10 @@ export default function OmOss() {
       </section>
 
       {/* The Legora Way section */}
-      <section style={{ background: "white", padding: "0 48px 100px", fontFamily: "'DM Sans', sans-serif" }}>
-        <div style={{ maxWidth: 860, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+      <section className="om-way-section" style={{ background: "white", fontFamily: "'DM Sans', sans-serif" }}>
+        <div className="om-legora-way-grid" style={{ maxWidth: 860, margin: "0 auto" }}>
           <div>
-            <h2 style={{ fontFamily: "'DM Serif Display', Georgia, serif", fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 400, color: "#111", letterSpacing: "-0.03em", margin: "0 0 40px", lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: "'DM Serif Display', Georgia, serif", fontSize: "clamp(24px, 3vw, 40px)", fontWeight: 400, color: "#111", letterSpacing: "-0.03em", margin: "0 0 40px", lineHeight: 1.2 }}>
               The Legora way
             </h2>
           </div>
@@ -97,7 +217,6 @@ export default function OmOss() {
           </div>
         </div>
 
-        {/* Team photo below */}
         <div style={{ maxWidth: 860, margin: "64px auto 0" }}>
           <div style={{ borderRadius: 10, overflow: "hidden", aspectRatio: "16/7" }}>
             <img
@@ -110,22 +229,24 @@ export default function OmOss() {
       </section>
 
       {/* Quote section */}
-      <section style={{ background: "#e07830", padding: "80px 48px", fontFamily: "'DM Sans', sans-serif" }}>
-        <div style={{ maxWidth: 960, margin: "0 auto", display: "flex", alignItems: "center", gap: 64 }}>
-          <div style={{ flex: "0 0 260px", borderRadius: 8, overflow: "hidden", aspectRatio: "3/4" }}>
-            <img
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80"
-              alt="Jeannette zu Fürstenberg"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 28, color: "rgba(255,255,255,0.6)", marginBottom: 16, lineHeight: 1 }}>"</div>
-            <p style={{ fontFamily: "'DM Serif Display', Georgia, serif", fontSize: "clamp(18px, 2.2vw, 26px)", color: "#fff", fontWeight: 400, lineHeight: 1.5, letterSpacing: "-0.02em", margin: "0 0 28px" }}>
-              Legora is driving AI transformations in a highly specialized industry. With an outstanding product, rapid adoption by top-tier firms, and a founder who combines rare product instinct with exceptional execution, as we see it, Legora is redefining how legal work gets done.
-            </p>
-            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.8)", fontWeight: 500 }}>Jeannette zu Fürstenberg</div>
-            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>Managing Director and Head of Europe at General Catalyst</div>
+      <section className="om-quote-section" style={{ background: "#e07830", fontFamily: "'DM Sans', sans-serif" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto" }}>
+          <div className="om-quote-inner">
+            <div className="om-quote-image">
+              <img
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80"
+                alt="Jeannette zu Fürstenberg"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 28, color: "rgba(255,255,255,0.6)", marginBottom: 16, lineHeight: 1 }}>"</div>
+              <p style={{ fontFamily: "'DM Serif Display', Georgia, serif", fontSize: "clamp(16px, 2.2vw, 26px)", color: "#fff", fontWeight: 400, lineHeight: 1.5, letterSpacing: "-0.02em", margin: "0 0 28px" }}>
+                Legora is driving AI transformations in a highly specialized industry. With an outstanding product, rapid adoption by top-tier firms, and a founder who combines rare product instinct with exceptional execution, as we see it, Legora is redefining how legal work gets done.
+              </p>
+              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.8)", fontWeight: 500 }}>Jeannette zu Fürstenberg</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>Managing Director and Head of Europe at General Catalyst</div>
+            </div>
           </div>
         </div>
       </section>

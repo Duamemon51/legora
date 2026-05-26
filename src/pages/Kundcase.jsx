@@ -145,6 +145,23 @@ const stories = [
   },
 ];
 
+/* ── Responsive hook ── */
+function useBreakpoint() {
+  const get = () => {
+    if (typeof window === "undefined") return "desktop";
+    if (window.innerWidth <= 600) return "mobile";
+    if (window.innerWidth <= 900) return "tablet";
+    return "desktop";
+  };
+  const [bp, setBp] = useState(get);
+  useEffect(() => {
+    const fn = () => setBp(get());
+    window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, []);
+  return bp;
+}
+
 function useKeyPress(key, handler) {
   useEffect(() => {
     const fn = (e) => { if (e.key === key) handler(); };
@@ -153,15 +170,14 @@ function useKeyPress(key, handler) {
   }, [key, handler]);
 }
 
+/* ── Modal ── */
 function StoryModal({ story, onClose }) {
-  useKeyPress("Escape", onClose);
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
 
+  useKeyPress("Escape", onClose);
   useEffect(() => {
-    if (story) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = story ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [story]);
 
@@ -176,9 +192,9 @@ function StoryModal({ story, onClose }) {
         background: "rgba(0,0,0,0.82)",
         zIndex: 9999,
         display: "flex",
-        alignItems: "center",
+        alignItems: isMobile ? "flex-end" : "center",
         justifyContent: "center",
-        padding: "24px",
+        padding: isMobile ? "0" : "24px",
         backdropFilter: "blur(4px)",
         WebkitBackdropFilter: "blur(4px)",
         animation: "fadeIn 0.25s ease",
@@ -187,7 +203,9 @@ function StoryModal({ story, onClose }) {
       <style>{`
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUpSheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .modal-inner { animation: slideUp 0.3s ease; }
+        .modal-inner-sheet { animation: slideUpSheet 0.35s cubic-bezier(0.32,0.72,0,1); }
         .modal-close-btn:hover { background: rgba(255,255,255,0.25) !important; }
         .modal-tag-pill { display: inline-block; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; font-size: 11px; color: rgba(255,255,255,0.5); padding: 4px 12px; margin: 0 6px 6px 0; letter-spacing: 0.02em; }
         .modal-body-text p { margin: 0 0 16px; }
@@ -195,22 +213,22 @@ function StoryModal({ story, onClose }) {
       `}</style>
 
       <div
-        className="modal-inner"
+        className={isMobile ? "modal-inner-sheet" : "modal-inner"}
         onClick={(e) => e.stopPropagation()}
         style={{
           background: "#0f0f0d",
-          borderRadius: 16,
+          borderRadius: isMobile ? "16px 16px 0 0" : 16,
           overflow: "hidden",
           width: "100%",
-          maxWidth: 680,
-          maxHeight: "90vh",
+          maxWidth: isMobile ? "100%" : 680,
+          maxHeight: isMobile ? "92vh" : "90vh",
           display: "flex",
           flexDirection: "column",
           border: "1px solid rgba(255,255,255,0.08)",
         }}
       >
         {/* Video header */}
-        <div style={{ position: "relative", height: 280, flexShrink: 0 }}>
+        <div style={{ position: "relative", height: isMobile ? 200 : 280, flexShrink: 0 }}>
           <video
             key={story.video}
             src={story.video}
@@ -218,110 +236,50 @@ function StoryModal({ story, onClose }) {
             loop
             muted
             playsInline
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: 0.65,
-            }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.65 }}
           />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "linear-gradient(to top, #0f0f0d 0%, rgba(15,15,13,0.4) 50%, transparent 100%)",
-            }}
-          />
-          {/* Close button */}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0f0f0d 0%, rgba(15,15,13,0.4) 50%, transparent 100%)" }} />
           <button
             className="modal-close-btn"
             onClick={onClose}
             aria-label="Close story"
             style={{
-              position: "absolute",
-              top: 14,
-              right: 14,
-              background: "rgba(0,0,0,0.45)",
-              border: "1px solid rgba(255,255,255,0.15)",
-              borderRadius: "50%",
-              width: 34,
-              height: 34,
-              cursor: "pointer",
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "background 0.2s",
-              zIndex: 10,
+              position: "absolute", top: 14, right: 14,
+              background: "rgba(0,0,0,0.45)", border: "1px solid rgba(255,255,255,0.15)",
+              borderRadius: "50%", width: 34, height: 34, cursor: "pointer",
+              color: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "background 0.2s", zIndex: 10,
             }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M1 1L13 13M13 1L1 13" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
-
-          {/* Name/title overlay on video */}
-          <div style={{ position: "absolute", bottom: 24, left: 28 }}>
-            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", fontWeight: 500, letterSpacing: "0.03em", marginBottom: 4 }}>
-              {story.title}
-            </div>
-            <div style={{ fontSize: 20, color: "#fff", fontWeight: 500, letterSpacing: "-0.02em" }}>
-              {story.name}
-            </div>
+          <div style={{ position: "absolute", bottom: 20, left: isMobile ? 20 : 28 }}>
+            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", fontWeight: 500, letterSpacing: "0.03em", marginBottom: 4 }}>{story.title}</div>
+            <div style={{ fontSize: isMobile ? 17 : 20, color: "#fff", fontWeight: 500, letterSpacing: "-0.02em" }}>{story.name}</div>
           </div>
         </div>
 
         {/* Scrollable body */}
-        <div
-          style={{
-            padding: "24px 28px 32px",
-            overflowY: "auto",
-            flex: 1,
-          }}
-        >
-          {/* Pull quote */}
-          <blockquote
-            style={{
-              fontFamily: "'Georgia', serif",
-              fontSize: 19,
-              color: "#fff",
-              lineHeight: 1.5,
-              letterSpacing: "-0.02em",
-              margin: "0 0 20px",
-              paddingLeft: 16,
-              borderLeft: "2px solid rgba(255,255,255,0.18)",
-            }}
-          >
+        <div style={{ padding: isMobile ? "20px 20px 28px" : "24px 28px 32px", overflowY: "auto", flex: 1 }}>
+          <blockquote style={{
+            fontFamily: "'Georgia', serif",
+            fontSize: isMobile ? 16 : 19,
+            color: "#fff", lineHeight: 1.5, letterSpacing: "-0.02em",
+            margin: "0 0 20px", paddingLeft: 16,
+            borderLeft: "2px solid rgba(255,255,255,0.18)",
+          }}>
             "{story.quote}"
           </blockquote>
-
-          <div
-            style={{
-              height: 1,
-              background: "rgba(255,255,255,0.08)",
-              margin: "0 0 20px",
-            }}
-          />
-
-          {/* Story body */}
+          <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "0 0 20px" }} />
           <div
             className="modal-body-text"
-            style={{
-              fontSize: 14,
-              color: "rgba(255,255,255,0.6)",
-              lineHeight: 1.8,
-              marginBottom: 24,
-            }}
+            style={{ fontSize: isMobile ? 13 : 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: 24 }}
             dangerouslySetInnerHTML={{ __html: story.story }}
           />
-
-          {/* Tags */}
-          {story.tags && story.tags.length > 0 && (
-            <div>
-              {story.tags.map((tag) => (
-                <span key={tag} className="modal-tag-pill">{tag}</span>
-              ))}
-            </div>
+          {story.tags?.length > 0 && (
+            <div>{story.tags.map((tag) => <span key={tag} className="modal-tag-pill">{tag}</span>)}</div>
           )}
         </div>
       </div>
@@ -329,7 +287,8 @@ function StoryModal({ story, onClose }) {
   );
 }
 
-function StoryCard({ story, large, onClick }) {
+/* ── Story Card ── */
+function StoryCard({ story, large, onClick, fullWidth }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -342,10 +301,10 @@ function StoryCard({ story, large, onClick }) {
         borderRadius: 12,
         overflow: "hidden",
         cursor: "pointer",
-        gridColumn: large ? "span 2" : "span 1",
-        gridRow: large ? "span 2" : "span 1",
+        gridColumn: (!fullWidth && large) ? "span 2" : "span 1",
+        gridRow: (!fullWidth && large) ? "span 2" : "span 1",
         background: "#1a1a18",
-        minHeight: large ? 500 : 240,
+        minHeight: large ? (fullWidth ? 260 : 500) : 240,
         transition: "transform 0.2s ease",
         transform: hovered ? "scale(1.015)" : "scale(1)",
       }}
@@ -357,79 +316,51 @@ function StoryCard({ story, large, onClick }) {
         muted
         playsInline
         style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
+          position: "absolute", inset: 0, width: "100%", height: "100%",
           objectFit: "cover",
           opacity: hovered ? 0.5 : 0.7,
           transition: "opacity 0.4s ease",
         }}
       />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)",
-        }}
-      />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)" }} />
 
-      {/* Read more indicator — appears on hover */}
-      <div
-        style={{
-          position: "absolute",
-          top: 12,
-          right: 12,
-          background: "rgba(255,255,255,0.12)",
-          border: "1px solid rgba(255,255,255,0.2)",
-          borderRadius: 20,
-          padding: "4px 10px",
-          fontSize: 11,
-          color: "rgba(255,255,255,0.8)",
-          letterSpacing: "0.02em",
-          opacity: hovered ? 1 : 0,
-          transition: "opacity 0.2s ease",
-          pointerEvents: "none",
-        }}
-      >
+      <div style={{
+        position: "absolute", top: 12, right: 12,
+        background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)",
+        borderRadius: 20, padding: "4px 10px", fontSize: 11,
+        color: "rgba(255,255,255,0.8)", letterSpacing: "0.02em",
+        opacity: hovered ? 1 : 0, transition: "opacity 0.2s ease", pointerEvents: "none",
+      }}>
         Read story
       </div>
 
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          padding: large ? "28px 32px" : "16px 18px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "'Georgia', serif",
-            fontSize: large ? 22 : 13.5,
-            color: "#fff",
-            fontWeight: 400,
-            lineHeight: 1.4,
-            marginBottom: large ? 16 : 10,
-            letterSpacing: "-0.02em",
-          }}
-        >
+      <div style={{
+        position: "absolute", inset: 0,
+        padding: large && !fullWidth ? "28px 32px" : "16px 18px",
+        display: "flex", flexDirection: "column", justifyContent: "flex-end",
+      }}>
+        <div style={{
+          fontFamily: "'Georgia', serif",
+          fontSize: large && !fullWidth ? 22 : 13.5,
+          color: "#fff", fontWeight: 400, lineHeight: 1.4,
+          marginBottom: large && !fullWidth ? 16 : 10,
+          letterSpacing: "-0.02em",
+        }}>
           {`"${story.quote}"`}
         </div>
-        <div style={{ fontSize: large ? 13 : 11.5, color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>
-          {story.name}
-        </div>
-        <div style={{ fontSize: large ? 12 : 11, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
-          {story.title}
-        </div>
+        <div style={{ fontSize: large && !fullWidth ? 13 : 11.5, color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>{story.name}</div>
+        <div style={{ fontSize: large && !fullWidth ? 12 : 11, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>{story.title}</div>
       </div>
     </div>
   );
 }
 
+/* ── Stats ── */
 function StatsSection() {
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+
   const stats = [
     { value: "$6.4m", description: "potential additional billing per 100 lawyers" },
     { value: "30%", description: "Legora users report a 30% measured average boost in productivity" },
@@ -439,48 +370,51 @@ function StatsSection() {
     { value: "97%", description: "find that Legora speeds up document analysis substantially" },
   ];
 
+  const cols = isMobile ? 1 : isTablet ? 2 : 3;
+
   return (
     <section style={{ background: "#e8ede8", fontFamily: "'DM Sans', sans-serif" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;450&display=swap');
-      `}</style>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
-        {stats.map((stat, i) => (
-          <div
-            key={i}
-            style={{
-              padding: "48px 40px 40px",
-              borderRight: (i + 1) % 3 !== 0 ? "1px solid rgba(0,0,0,0.1)" : "none",
-              borderBottom: i < 3 ? "1px solid rgba(0,0,0,0.1)" : "none",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              minHeight: 200,
-            }}
-          >
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;450&display=swap');`}</style>
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+        {stats.map((stat, i) => {
+          const isLastCol = (i + 1) % cols === 0;
+          const isLastRow = i >= stats.length - cols;
+          return (
             <div
+              key={i}
               style={{
-                fontFamily: "'DM Serif Display', Georgia, serif",
-                fontSize: "clamp(36px, 4vw, 52px)",
-                fontWeight: 400,
-                color: "#111009",
-                letterSpacing: "-0.03em",
-                lineHeight: 1,
+                padding: isMobile ? "32px 20px" : "48px 40px 40px",
+                borderRight: !isLastCol ? "1px solid rgba(0,0,0,0.1)" : "none",
+                borderBottom: !isLastRow ? "1px solid rgba(0,0,0,0.1)" : "none",
+                display: "flex", flexDirection: "column", justifyContent: "space-between",
+                minHeight: isMobile ? 140 : 200,
               }}
             >
-              {stat.value}
+              <div style={{
+                fontFamily: "'DM Serif Display', Georgia, serif",
+                fontSize: isMobile ? "clamp(32px, 9vw, 44px)" : "clamp(36px, 4vw, 52px)",
+                fontWeight: 400, color: "#111009", letterSpacing: "-0.03em", lineHeight: 1,
+              }}>
+                {stat.value}
+              </div>
+              <div style={{ fontSize: 12, color: "#7a7268", lineHeight: 1.6, letterSpacing: "-0.005em", maxWidth: 200, marginTop: 12 }}>
+                {stat.description}
+              </div>
             </div>
-            <div style={{ fontSize: 12, color: "#7a7268", lineHeight: 1.6, letterSpacing: "-0.005em", maxWidth: 200 }}>
-              {stat.description}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
 }
 
+/* ── Trusted By ── */
 function TrustedBySection() {
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+  const cols = isMobile ? 2 : isTablet ? 3 : 5;
+
   const logos = [
     "abertis", "Amanda & Woods", "Abreu:", "ADLERSHAW GODDARD", "ADVANT Nidos",
     "adverity", "ALT MADISON LLC", "aliente", "ANDERSEN", "ATGA",
@@ -493,10 +427,8 @@ function TrustedBySection() {
   ];
 
   return (
-    <section style={{ background: "#FAFAF9", padding: "64px 48px 80px", fontFamily: "'DM Sans', sans-serif" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap');
-      `}</style>
+    <section style={{ background: "#FAFAF9", padding: isMobile ? "48px 20px 64px" : "64px 48px 80px", fontFamily: "'DM Sans', sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap');`}</style>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <p style={{ fontSize: 11, color: "#aaa", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", margin: "0 0 10px" }}>
           Law Firms
@@ -505,35 +437,34 @@ function TrustedBySection() {
           Trusted by 800+ leading law firms and in-house legal teams globally
         </p>
         <div style={{ border: "1px solid rgba(0,0,0,0.1)", borderRadius: 4, overflow: "hidden" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)" }}>
-            {logos.map((logo, i) => (
-              <div
-                key={i}
-                style={{
-                  padding: "28px 20px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRight: (i + 1) % 5 !== 0 ? "1px solid rgba(0,0,0,0.08)" : "none",
-                  borderBottom: i < logos.length - (logos.length % 5 || 5) ? "1px solid rgba(0,0,0,0.08)" : "none",
-                  minHeight: 80,
-                }}
-              >
-                <span
+          <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+            {logos.map((logo, i) => {
+              const isLastCol = (i + 1) % cols === 0;
+              const rowCount = Math.ceil(logos.length / cols);
+              const currentRow = Math.floor(i / cols);
+              const isLastRow = currentRow === rowCount - 1;
+              return (
+                <div
+                  key={i}
                   style={{
-                    fontSize: 13,
-                    fontWeight: 500,
-                    color: "#444",
-                    letterSpacing: "-0.02em",
-                    textAlign: "center",
-                    lineHeight: 1.3,
-                    fontFamily: logo.includes("Deloitte") || logo.includes("Dentons") ? "Georgia, serif" : "inherit",
+                    padding: isMobile ? "18px 10px" : "28px 20px",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    borderRight: !isLastCol ? "1px solid rgba(0,0,0,0.08)" : "none",
+                    borderBottom: !isLastRow ? "1px solid rgba(0,0,0,0.08)" : "none",
+                    minHeight: isMobile ? 60 : 80,
                   }}
                 >
-                  {logo}
-                </span>
-              </div>
-            ))}
+                  <span style={{
+                    fontSize: isMobile ? 11 : 13,
+                    fontWeight: 500, color: "#444", letterSpacing: "-0.02em",
+                    textAlign: "center", lineHeight: 1.3,
+                    fontFamily: logo.includes("Deloitte") || logo.includes("Dentons") ? "Georgia, serif" : "inherit",
+                  }}>
+                    {logo}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -541,40 +472,53 @@ function TrustedBySection() {
   );
 }
 
+/* ── Page ── */
 export default function Kundcase() {
   const [selectedStory, setSelectedStory] = useState(null);
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+
   const large = stories[0];
   const rest = stories.slice(1);
+
+  // Grid layout by breakpoint
+  // Desktop: 4-col masonry with large card spanning 2×2
+  // Tablet:  2-col, all cards equal
+  // Mobile:  1-col, all cards equal
+  const gridCols = isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(4, 1fr)";
+  const sectionPadding = isMobile ? "48px 16px 64px" : isTablet ? "64px 28px 80px" : "80px 48px 100px";
 
   return (
     <>
       <Navbar />
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;450&display=swap');`}</style>
 
-      <section style={{ background: "#f0f0ea", padding: "80px 48px 100px" }}>
+      <section style={{ background: "#f0f0ea", padding: sectionPadding }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <h2
-            style={{
-              fontSize: 13,
-              fontWeight: 500,
-              color: "#999",
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              marginBottom: 32,
-            }}
-          >
+          <h2 style={{
+            fontSize: 13, fontWeight: 500, color: "#999",
+            letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 32,
+          }}>
             Customer stories
           </h2>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: 10,
-            }}
-          >
-            <StoryCard story={large} large={true} onClick={() => setSelectedStory(large)} />
+          <div style={{ display: "grid", gridTemplateColumns: gridCols, gap: isMobile ? 8 : 10 }}>
+            {/* Large card — full-width on mobile/tablet, 2×2 span on desktop */}
+            <StoryCard
+              story={large}
+              large={true}
+              fullWidth={isMobile || isTablet}
+              onClick={() => setSelectedStory(large)}
+            />
             {rest.map((story) => (
-              <StoryCard key={story.id} story={story} large={false} onClick={() => setSelectedStory(story)} />
+              <StoryCard
+                key={story.id}
+                story={story}
+                large={false}
+                fullWidth={false}
+                onClick={() => setSelectedStory(story)}
+              />
             ))}
           </div>
         </div>
