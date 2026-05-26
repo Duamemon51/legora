@@ -16,6 +16,7 @@
   border-bottom-color: var(--border);
 }
 
+
 .navbar-inner {
   max-width: 100%;
   padding: 0 16px;
@@ -43,6 +44,11 @@
   color: var(--text-heading, #111);
 }
 
+/* Dark + scrolled: logo black */
+.navbar--dark.navbar--scrolled .navbar-logo {
+  color: #111;
+}
+
 .navbar-links {
   list-style: none;
   display: flex;
@@ -59,6 +65,7 @@
   transition: color 0.15s;
   display: inline-flex;
   align-items: center;
+  text-decoration: none;
 }
 
 .navbar-link:hover {
@@ -81,6 +88,15 @@
   color: var(--text-primary, #111);
 }
 
+/* Dark + scrolled: links black */
+.navbar--dark.navbar--scrolled .navbar-link {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.navbar--dark.navbar--scrolled .navbar-link:hover {
+  color: #111;
+}
+
 .navbar-actions {
   display: flex;
   align-items: center;
@@ -93,6 +109,7 @@
   color: rgba(0, 0, 0, 0.7);
   padding: 6px 12px;
   transition: color 0.3s ease;
+  text-decoration: none;
 }
 
 .navbar-login:hover {
@@ -113,6 +130,15 @@
 
 .navbar--scrolled .navbar-login:hover {
   color: var(--text-primary, #111);
+}
+
+/* Dark + scrolled: login black */
+.navbar--dark.navbar--scrolled .navbar-login {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.navbar--dark.navbar--scrolled .navbar-login:hover {
+  color: #111;
 }
 
 .btn-demo {
@@ -147,7 +173,6 @@
 }
 
 /* Dropdown */
-
 .navbar-item {
   position: relative;
 }

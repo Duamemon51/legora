@@ -29,12 +29,10 @@ function FAQItem({ question, answer }) {
 export default function Expertis() {
   return (
     <>
-      <Navbar />
+      <Navbar dark={true} />
       <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');`}</style>
 
-    
-
-      {/* Hero dark section - Your data is in safe hands */}
+      {/* Hero */}
       <section
         style={{
           background: "#111",
@@ -42,6 +40,7 @@ export default function Expertis() {
           minHeight: "70vh",
           overflow: "hidden",
           fontFamily: "'DM Sans', sans-serif",
+          paddingTop: "64px",
         }}
       >
         <div style={{ flex: "0 0 42%", padding: "64px 56px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -218,6 +217,8 @@ export default function Expertis() {
         </div>
       </section>
 
+      {/* Navbar height spacer — sirf is page pe footer ke upar */}
+      <div style={{ height: 64, background: "#ffffff" }} />
       <Footer />
     </>
   );

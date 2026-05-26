@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import LayersSection from "../components/LayersSection";
 import DataIntegrationsSection from "../components/DataIntegrationsSection";
 import "./Webbutveckling.css";
 
@@ -206,7 +205,7 @@ export default function Systemutveckling() {
     <div className="systemutveckling-wrapper">
       <Navbar />
       <Hero />
-      <LayersSection />
+    
       <SingleSystem />
       <SecuritySection />
       <ProductsSection />

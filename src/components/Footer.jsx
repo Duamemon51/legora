@@ -1,21 +1,42 @@
+import { Link } from 'react-router-dom'
 import './Footer.css'
 
 const cols = [
   {
-    title: 'Product',
-    links: ['Legora aOS', 'Word Add-In', 'Outlook Add-In', 'Editor', 'Mobile app', 'Tabular Review', 'Workflows', 'Legal Research', 'Portal', 'Monitors', 'Agent'],
+    title: 'Utveckling',
+    links: [
+      { label: 'Webbutveckling', path: '/webbutveckling' },
+      { label: 'Apputveckling', path: '/apputveckling' },
+      { label: 'Systemutveckling', path: '/systemutveckling' },
+      { label: 'AI-lösningar', path: '/ai-losningar' },
+    ],
   },
   {
-    title: 'Solutions',
-    links: ['M&A', 'Litigation', 'Banking', 'Tax', 'Insurance', 'Law firms', 'In-house'],
+    title: 'It-Tjänster',
+    links: [
+      { label: 'IT-Drift & Hosting', path: '/it-drift' },
+      { label: 'Cybersäkerhet', path: '/cybersakerhet' },
+      { label: 'Integrationer', path: '/integrationer' },
+      { label: 'IT-Support', path: '/it-support' },
+    ],
   },
   {
-    title: 'Certified',
-    links: ['GDPR', 'AICPA SOC', 'ISO 27001', 'ISO 42001', 'Trust Center'],
+    title: 'Företag',
+    links: [
+       { label: 'Vår Expertis', path: '/expertis' },
+  { label: 'Kundcase', path: '/kundcase' },
+  { label: 'Om Oss', path: '/om-oss' },
+      { label: 'Kontakta oss', path: '/demo' },
+    ],
   },
   {
-    title: 'Company',
-    links: ['Careers', 'Blog', 'Press', 'About', 'Contact'],
+    title: 'Socialt',
+    links: [
+      { label: 'Instagram', path: '#' },
+      { label: 'Facebook', path: '#' },
+      { label: 'LinkedIn', path: '#' },
+      { label: 'TikTok', path: '#' },
+    ],
   },
 ]
 
@@ -28,8 +49,8 @@ export default function Footer() {
             <p className="footer-col-title">{col.title}</p>
             <ul>
               {col.links.map(link => (
-                <li key={link}>
-                  <a href="#" className="footer-link">{link}</a>
+                <li key={link.label}>
+                  <Link to={link.path} className="footer-link">{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -43,19 +64,11 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <div className="footer-bottom-left">
-          <a href="#">Terms of use</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Security Policy</a>
-        </div>
-        <div className="footer-bottom-center">
-          <a href="#">aOS</a>
-          <a href="#">News</a>
-          <a href="#">Articles</a>
+          <Link to="/legora-terms-of-use">Terms of use</Link>
+          <Link to="/legora-privacy-policy">Privacy Policy</Link>
+          <Link to="/legora-security-policy">Security Policy</Link>
         </div>
         <div className="footer-bottom-right">
-          <a href="#">X</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">Youtube</a>
           <span>© 2026 Legora. All rights reserved.</span>
         </div>
       </div>

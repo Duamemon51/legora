@@ -14,7 +14,9 @@ import ITDrift from './pages/iTDrift'
 import Cybersakerhet from './pages/cybersakerhet'
 import Integrationer from './pages/integrationer'
 import ITSupport from './pages/iTSupport'
-
+import LegoraPrivacyPolicy from './pages/legoraPrivacyPolicy'
+import LegoraTermsOfUse from './pages/legoraTermsOfUse'
+import LegoraSecurityPolicy from './pages/legoraSecurityPolicy'
 // ✅ Scroll fix
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -27,7 +29,7 @@ function ScrollToTop() {
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop /> {/* ✅ Yahan add kiya */}
+      <ScrollToTop /> 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/lagoralanding" element={<LegoraLanding />} />
@@ -43,6 +45,9 @@ export default function App() {
         <Route path="/cybersakerhet" element={<Cybersakerhet />} />
         <Route path="/integrationer" element={<Integrationer />} />
         <Route path="/it-support" element={<ITSupport />} />
+        <Route path="/legora-privacy-policy" element={<LegoraPrivacyPolicy />} />
+        <Route path="/legora-terms-of-use" element={<LegoraTermsOfUse />} />
+        <Route path="/legora-security-policy" element={<LegoraSecurityPolicy />} />
       </Routes>
     </BrowserRouter>
   )

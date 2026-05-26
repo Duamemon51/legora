@@ -1,10 +1,11 @@
 .hero {
+  height: 100vh;
   min-height: 100vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 120px 32px 120px;
-  text-align: left;
+  padding: 0 32px 160px;
+  text-align: center;
   position: relative;
   overflow: hidden;
 }
@@ -24,7 +25,6 @@
   background: rgba(0, 0, 0, 0.45);
   z-index: 1;
 }
-
 .hero-inner {
   width: 100%;
   max-width: 1100px;
@@ -32,8 +32,9 @@
   z-index: 2;
   padding: 0 16px;
   text-align: center;
+  margin: 0 auto;
+  transform: translateY(270px);
 }
-
 .hero-headline {
   font-family: var(--font-display);
   font-size: clamp(32px, 4vw, 52px);
@@ -48,6 +49,7 @@
 .hero-bottom {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 24px;
 }
 
@@ -58,16 +60,18 @@
 }
 
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #ffffff;
-  background: #1B3C2A;
-  border: none;
-  padding: 8px 8px 8px 18px;
-  border-radius: 100px;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #ffffff !important;
+  background: #1B3C2A !important;
+  border: none !important;
+  padding: 6px 6px 6px 14px !important;
+  border-radius: 100px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
 }
 
 .btn-primary:hover {
@@ -75,36 +79,25 @@
 }
 
 .btn-primary .btn-arrow {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 12px;
   flex-shrink: 0;
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.8);
-  padding: 12px 20px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.btn-secondary:hover {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.5);
 }
 
 @media (max-width: 640px) {
   .hero {
     padding: 100px 20px 60px;
+  }
+
+  .hero-bottom {
+    flex-direction: column;
+    gap: 16px;
   }
 
   .hero-sub {
