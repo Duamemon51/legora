@@ -30,14 +30,14 @@ export default function Demo() {
   const selectClass = "form-select";
 
   const logos = [
-    { name: "Linklaters",    weight: 500, font: "system-ui, sans-serif", opacity: 1 },
-    { name: "Deloitte.",     weight: 700, font: "system-ui, sans-serif", opacity: 1 },
-    { name: "MinterEllison.",weight: 500, font: "Georgia, serif",        opacity: 1 },
-    { name: "DENTONS",       weight: 700, font: "system-ui, sans-serif", opacity: 1 },
-    { name: "GOODWIN",       weight: 700, font: "system-ui, sans-serif", opacity: 1 },
-    { name: "Bird & Bird",   weight: 500, font: "Georgia, serif",        opacity: 0.85 },
+    { name: "Linklaters",      weight: 500, font: "system-ui, sans-serif", opacity: 1 },
+    { name: "Deloitte.",       weight: 700, font: "system-ui, sans-serif", opacity: 1 },
+    { name: "MinterEllison.",  weight: 500, font: "Georgia, serif",        opacity: 1 },
+    { name: "DENTONS",         weight: 700, font: "system-ui, sans-serif", opacity: 1 },
+    { name: "GOODWIN",         weight: 700, font: "system-ui, sans-serif", opacity: 1 },
+    { name: "Bird & Bird",     weight: 500, font: "Georgia, serif",        opacity: 0.85 },
     { name: "CLEARY GOTTLIEB", weight: 500, font: "system-ui, sans-serif", opacity: 1 },
-    { name: "WHITE & CASE",  weight: 500, font: "system-ui, sans-serif", opacity: 1 },
+    { name: "WHITE & CASE",    weight: 500, font: "system-ui, sans-serif", opacity: 1 },
   ];
 
   // Duplicate for seamless infinite loop
@@ -86,21 +86,27 @@ export default function Demo() {
             {/* First / Last name */}
             <div className="grid-two">
               <div>
-                <label className={labelClass}>First Name<span className="req-star">*</span></label>
+                <label className={labelClass}>
+                  First Name<span className="req-star">*</span>
+                </label>
                 <input
                   name="firstName"
                   value={form.firstName}
                   onChange={handleChange}
                   className={inputClass}
+                  autoComplete="given-name"
                 />
               </div>
               <div>
-                <label className={labelClass}>Last Name<span className="req-star">*</span></label>
+                <label className={labelClass}>
+                  Last Name<span className="req-star">*</span>
+                </label>
                 <input
                   name="lastName"
                   value={form.lastName}
                   onChange={handleChange}
                   className={inputClass}
+                  autoComplete="family-name"
                 />
               </div>
             </div>
@@ -114,23 +120,30 @@ export default function Demo() {
                 value={form.email}
                 onChange={handleChange}
                 className={inputClass}
+                autoComplete="email"
+                inputMode="email"
               />
             </div>
 
             {/* Company Name */}
             <div className="mb-5">
-              <label className={labelClass}>Company Name<span className="req-star">*</span></label>
+              <label className={labelClass}>
+                Company Name<span className="req-star">*</span>
+              </label>
               <input
                 name="company"
                 value={form.company}
                 onChange={handleChange}
                 className={inputClass}
+                autoComplete="organization"
               />
             </div>
 
             {/* Primary location */}
             <div className="mb-5">
-              <label className={labelClass}>Primary location<span className="req-star">*</span></label>
+              <label className={labelClass}>
+                Primary location<span className="req-star">*</span>
+              </label>
               <div className="select-wrapper">
                 <select
                   name="location"
@@ -150,7 +163,9 @@ export default function Demo() {
 
             {/* Organisation type */}
             <div className="mb-5">
-              <label className={labelClass}>Organisation type<span className="req-star">*</span></label>
+              <label className={labelClass}>
+                Organisation type<span className="req-star">*</span>
+              </label>
               <div className="select-wrapper">
                 <select
                   name="orgType"
@@ -169,18 +184,23 @@ export default function Demo() {
 
             {/* Number of lawyers */}
             <div className="mb-5">
-              <label className={labelClass}>Number of lawyers<span className="req-star">*</span></label>
+              <label className={labelClass}>
+                Number of lawyers<span className="req-star">*</span>
+              </label>
               <input
                 name="lawyers"
                 value={form.lawyers}
                 onChange={handleChange}
                 className={inputClass}
+                inputMode="numeric"
               />
             </div>
 
             {/* How did you hear about us */}
             <div className="mb-5">
-              <label className={labelClass}>How did you hear about us?<span className="req-star">*</span></label>
+              <label className={labelClass}>
+                How did you hear about us?<span className="req-star">*</span>
+              </label>
               <div className="select-wrapper">
                 <select
                   name="hearAbout"
@@ -217,7 +237,8 @@ export default function Demo() {
             {/* Privacy text */}
             <p className="privacy-text">
               By submitting this form, you agree to the processing of your personal data in
-              accordance with our <span className="privacy-link">Privacy Policy</span>
+              accordance with our{" "}
+              <span className="privacy-link">Privacy Policy</span>
             </p>
 
             {/* Submit */}
